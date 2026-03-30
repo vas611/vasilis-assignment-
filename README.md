@@ -86,3 +86,29 @@ Decision logic:
 - Measure A0 with a multimeter while turning the potentiometer to confirm range.
 - If LED turns on in the opposite range, check LED polarity and wiring.
 - If thresholds are slightly off, adjust `VREF` in code (e.g., 4.95 V if measured).
+
+
+## 5) Replacing the potentiometer with a photoresistor (LDR)
+
+Yes—you can replace the potentiometer with an LDR by making a standard two-resistor voltage divider and feeding the midpoint to `A0`.
+
+### Basic wiring (simple and recommended)
+
+Use one fixed resistor (typically 10 kΩ) and one LDR:
+
+- **Option A (voltage rises with light):**
+  - `+5V -> LDR -> A0 -> 10kΩ -> GND`
+- **Option B (voltage falls with light):**
+  - `+5V -> 10kΩ -> A0 -> LDR -> GND`
+
+In both cases, connect Arduino GND to the divider GND.
+
+### Choosing the fixed resistor
+
+- Start with **10 kΩ** (good for many common LDRs).
+- If the ADC reading is compressed near 0 or 1023, choose a different fixed resistor near the LDR’s mid-light resistance (often 5 kΩ to 47 kΩ).
+
+### Important behavior note
+
+- Option A and Option B invert the response (more light gives higher vs lower voltage).
+- If the LED color bands seem reversed relative to brightness, either swap LDR/fixed resistor positions or invert the threshold logic in code.
